@@ -1,18 +1,13 @@
-import java.util.*;
+import java.util.Random;
 
-/** 
- *  NOTHING FOR YOU TO DO HERE.
- *  
- *  A Solver that chooses moves randomly. */
-public class Dummy implements Solver {
+public class RandomPlayer implements Solver {
 
 	private Board.Player myColor;
 
-	public Dummy(Board.Player color) {
+	public RandomPlayer(Board.Player color) {
 		myColor= color;
 	}
 	
-	/** See Solver.getMoves for the specification. */
     public @Override Move[] getMoves(Board b) {
     	Random rand= new Random();
 		int column= rand.nextInt(Board.NUM_COLS);

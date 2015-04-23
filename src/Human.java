@@ -1,8 +1,5 @@
 import java.util.concurrent.Semaphore;
 
-/**  NOTHING FOR YOU TO DO HERE. */
-
- /**  A Solver that takes human input from a GUI to determine moves. */
 public class Human implements Solver {
 
 	private Board.Player player; // The player
@@ -15,7 +12,7 @@ public class Human implements Solver {
 		waitSema= new Semaphore(0);
 	}
 
-	/** See Solver.getMoves for the specification. */
+
     public @Override Move[] getMoves(Board b) {
     	try {
 			waitSema.acquire();

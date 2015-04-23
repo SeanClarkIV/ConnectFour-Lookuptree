@@ -13,7 +13,7 @@ public class Game {
 
     /** Have the computer play against itself, putting output int the default
      * Java console.
-     * You can also have your new AI player play from here, with no GUI output.
+     * You can also have your new Minimax player play from here, with no GUI output.
      * It may be useful for testing.
      * If you want a human to play, use GUI.main.
      */
@@ -27,8 +27,8 @@ public class Game {
         //Solver p1= new Dummy(Board.Player.RED);
         //Solver p2= new Dummy(Board.Player.YELLOW); 
          
-        Solver p1= new AI(Board.Player.RED, 3);
-        Solver p2= new AI(Board.Player.YELLOW, 3);
+        Solver p1= new Minimax(Board.Player.RED, 3);
+        Solver p2= new Minimax(Board.Player.YELLOW, 3);
         
         Game game= new Game(p1, p2);
         game.runGame();
@@ -114,9 +114,9 @@ public class Game {
               Board b= new Board();
               State s = new State(Board.Player.RED,b,null);
               
-              AI.createGameTree(s, 6);
-              AI testAI = new AI(Board.Player.RED,6);
-              AI.minimax(testAI,s);
+              Minimax.createGameTree(s, 6);
+              Minimax testAI = new Minimax(Board.Player.RED,6);
+              Minimax.minimax(testAI,s);
               
               s.writeToFile();
               Move[] moves= b.getPossibleMoves(Board.Player.RED);

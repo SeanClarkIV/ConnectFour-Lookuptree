@@ -1,17 +1,15 @@
-import java.util.*;
+import java.util.List;
 
-/** An instance represents a Solver that intelligently determines 
- *  Moves using algorithm Minimax. */
-public class AI implements Solver {
+/** Claas that represents player that makes moves using algorithm Minimax. */
+public class Minimax implements Solver {
 
 	private Board.Player player; // the current player
 
 	/** The depth of the search in the game space when evaluating moves. */
 	private int depth;
 
-	/** Constructor: an instance with player p who searches to depth d
-	 * when searching the game space for moves. */
-	public AI(Board.Player p, int d) {
+	/** Searches to depth d when searching the game space for moves. */
+	public Minimax(Board.Player p, int d) {
 		player= p;
 		depth= d;
 	}
@@ -88,8 +86,8 @@ public class AI implements Solver {
 		// TODO
 	}
 
-	/** Call minimax in ai with state s. */
-	public static void minimax(AI ai, State s) {
+	/** Call minimax in AI with state s. */
+	public static void minimax(Minimax ai, State s) {
 		ai.minimax(s);
 	}
 

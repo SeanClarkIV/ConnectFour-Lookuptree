@@ -1,6 +1,5 @@
 import java.io.*;
 
-/** An instance represents the state of a game of Connect Four. */
 public class State implements Comparable<Object> {
     /** A State array of length 0. */
     public final static State[] length0= {};

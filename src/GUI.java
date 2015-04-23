@@ -2,41 +2,92 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
+import java.util.Scanner;
 
-/**
- *  NOTHING FOR YOU TO DO HERE.
- */  
-/**  An instance is a GUI that can display a Connect Four game. */
-public class GUI extends JFrame implements ActionListener {
+public class GUI extends JFrame implements ActionListener 
+{
 
     private GamePanel gamePanel;
     private JLabel msgLabel;
     private JButton[] columnButtons;
     private Game game;
 
-    public static void main(String[] args) {
-        /* -------------------------- Change these to play game differently. -------------------------- */
-
-        /* p1 is the first player, p2 is the second player. A Solver
-         * can be a Human, AI, or Dummy. Human and Dummy constructors have
-         * a player parameter; the AI constructor has a player and depth
-         * as parameters, with the a depth used to recurse when searching the
-         * game space. */
-        Solver p1= new AI(Board.Player.RED, 4);
-        Solver p2= new AI(Board.Player.YELLOW,4);
-        //Solver p1= new Dummy(Board.Player.RED);
-        //Solver p2= new Dummy(Board.Player.YELLOW);
-        //Solver p1 = new Human(Board.Player.RED);
+    public static void main(String[] args)
+    {
+        
+    	Scanner user_input = new Scanner( System.in );
+    	int player1;
+    	int player2;
+    	Solver p1 = null;
+    	Solver p2 = null;
+    	System.out.print("Welcome to Connect Four!!\nPlease choose player 1 by corresponding number:\n1: Minimax Player \n"
+    			+ "2: Random Player\n3: Human Player\n");
+    	
+    	player1 = user_input.nextInt( );
+    	
+    	if(player1 == 1)
+    		{
+    			/* The depth is used to recurse when searching the game space. */
+    			p1= new Minimax(Board.Player.RED, 6);
+    		}
+    	else if(player1 == 2)
+    		{
+    			p1= new RandomPlayer(Board.Player.RED);
+    		}
+    	else if(player1 == 3)
+    		{
+    			p1= new Human(Board.Player.RED);
+    		}
+    	else
+    		{
+    			System.out.println("You have not entered a valid number, please restart and enter valid number.");
+    		}
+    	
+    	
+    	System.out.print("Please choose player 2 by corresponding number:\n1: Minimax Player\n"
+    			+ "2: Random Player\n3: Human Player\n");
+    	
+    	player2 = user_input.nextInt( );
+    	
+    	if(player2 == 1)
+    	{
+    		/* The depth is used to recurse when searching the game space. */
+    		p2= new Minimax(Board.Player.YELLOW, 6);
+    	}
+    	else if(player2 == 2)
+    	{
+    		p2= new RandomPlayer(Board.Player.YELLOW);
+    	}
+    	else if(player2 == 3)
+    	{
+    		p2= new Human(Board.Player.YELLOW);
+    	}
+    	else
+    	{
+    		System.out.println("You have not entered a valid number, please restart and enter valid number.");
+    	}
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+    	
+   
+        //Solver p1= new Minimax(Board.Player.RED, 6);
+        // Solver p2= new Minimax(Board.Player.YELLOW,6);
+        //Solver p1= new RandomPlayer(Board.Player.RED);
+       // Solver p2= new RandomPlayer(Board.Player.YELLOW);
+        // Solver p1 = new Human(Board.Player.RED);
         //Solver p2 = new Dummy(Board.Player.YELLOW);
-
-        /* --------------------------------- Do not change below here. --------------------------------- */
 
         Game game= new Game(p1, p2);
         game.setGUI(new GUI(game));
         game.runGame();
     }
 
-    /** Constructor: a GUI attached to Game game. */
+
     public GUI(Game game) {
         super("Connect Four AI");
 
