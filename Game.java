@@ -15,6 +15,7 @@ public class Game {
     private boolean editing_outcomes = false;
     private String outcomes = "";
     private String current_outcomes = "";
+    private int outcome = -1;
 
     //Change this if you would like a delay between plays
     private static final long SLEEP_INTERVAL= 0; //in milliseconds
@@ -188,17 +189,49 @@ public class Game {
                     continue;
                 } else {
                     if (activePlayer == player1) {
-                        /*if (editing_outcomes) {
+                        if (editing_outcomes) {
                             boolean go = false;
                             
                             while (!go) {
-                                if (bestMoves.length == 1) {
-                                    if (bestMoves[0].getColumn() == previous_move_1)
+                                if (board.getPossibleMoves(Board.Player.RED).length == 1) {
+                                    if (board.getPossibleMoves(Board.Player.RED)[0].getColumn() == previous_move_1) {
+                                        
+                                        int holder = previous_move_1;
+                                        
+                                        //String board_state = Experience.readFile(board.getBoardPosition());
+                                        //previous_move_1 = board_state.charAt(0) - 48;
+                                        //previous_move_2 = board_state.charAt(1) - 48;
+                                        
+                                        String writer = "";
+                                        writer += previous_move_1;
+                                        writer += previous_move_2;
+                                        for (x = 0; x < 7; x++) {
+                                            if (x != holder) writer += Experience.ILLEGAL;
+                                            else writer += outcome;
+                                        }
+                                        
+                                        Experience.writeFile(board.getBoardPosition(), writer);
+                                        
+                                        String old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_2, 2);
+                                        old_board_state = Experience.generateOldBoardState(old_board_state, previous_move_1, 1);
+                                        
+                                        current_outcomes = Experience.readFile(old_board_state);
+                                        current_outcomes = Experience.editOutcomes(previous_move_1+2, outcome, current_outcomes);
+                                        previous_move_1 = current_outcomes.charAt(0);
+                                        previous_move_2 = current_outcomes.charAt(1);
+                                        Experience.writeFile(old_board_state, current_outcomes);
+                                        board = new Board(board, previous_move_1, previous_move_2);                                        
+                                    }
+                                    else go = true;                                        
+                                }
+                                else {
+                                    
                                 }
                             }
-                        }*/
+                        }
+                        else nextMove= bestMoves[0];
                     }
-                    nextMove= bestMoves[0];
+                    else nextMove= bestMoves[0];
                 }
                 if (board.getTile(0,nextMove.getColumn()) == null) {
                     moveIsSafe= true; 
@@ -215,9 +248,9 @@ public class Game {
                 gui.updateGUI(board, nextMove);
             }
             
-            if (activePlayer == player1) {                
-                previous_move_1 = nextMove.getColumn();
-                if (previous_move_2 != -1) {
+            if (activePlayer == player2) {                
+                previous_move_2 = nextMove.getColumn();
+                if (previous_move_1 != -1) {
                     outcomes = "";
                     outcomes += previous_move_1;
                     outcomes += previous_move_2;
@@ -226,8 +259,8 @@ public class Game {
                 }                
             }
             
-            if (activePlayer == player2) {                
-                previous_move_2 = nextMove.getColumn();                
+            if (activePlayer == player1) {                
+                previous_move_1 = nextMove.getColumn();                
             }
             
             activePlayer= (activePlayer == player1 ? player2 : player1);
@@ -242,12 +275,20 @@ public class Game {
                       
            if (isGameOver()) {               
                editing_outcomes = true;
-               int outcome = -99;
+               outcome = -99;
                if (winner == null) outcome = Experience.DRAW;
                else if ("RED".equals(winner.toString())) outcome = Experience.WIN;
                else if ("YELLOW".equals(winner.toString())) outcome = Experience.LOSS;
                
-               String old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_2, 2);
+               String old_board_state = "";
+               
+               if (activePlayer == player2) {
+                old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_1, 1);
+               }
+               else {
+                   old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_2, 2);
+                   old_board_state = Experience.generateOldBoardState(old_board_state, previous_move_1, 1);
+               }
                
                current_outcomes = Experience.readFile(old_board_state);
                current_outcomes = Experience.editOutcomes(previous_move_1+2, outcome, current_outcomes);
