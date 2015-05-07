@@ -1,3 +1,7 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+
 
 public class Experience {
 	
@@ -11,9 +15,12 @@ public class Experience {
 	final int EMPTY = 0;
 	
 	
-	public void writeFile(String name, String contents)
+	public static void writeFile(String name, String contents, Board board) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		
+		 PrintWriter writer = new PrintWriter (board.getBoardPosition()+".txt", "UTF-8");
+         writer.println("The previous moves");
+         writer.close();
+         //System.out.println(board.getBoardPosition());
 	}
 	
 	public String readFile(String name)
