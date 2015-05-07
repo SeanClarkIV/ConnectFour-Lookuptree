@@ -1,5 +1,4 @@
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
 /** Runs the Connect Four game. */
@@ -11,6 +10,11 @@ public class Game {
     private Solver activePlayer;  // The possible moves to the player whose turn it is
     private GUI gui;
     private Board.Player winner;  // null
+    private static int previous_move_1 = -1;
+    private static int previous_move_2 = -1;
+    private boolean editing_outcomes = false;
+    private String outcomes = "";
+    private String current_outcomes = "";
 
     //Change this if you would like a delay between plays
     private static final long SLEEP_INTERVAL= 0; //in milliseconds
@@ -171,8 +175,10 @@ public class Game {
      * @throws UnsupportedEncodingException 
      * @throws FileNotFoundException */
     public void runGame() throws FileNotFoundException, UnsupportedEncodingException {
-        while (!isGameOver()) {
+        for(int x = 0; x < 100000; x++) {
             //Checking to see that the move can be made (not overflowing a column)
+            
+            
             boolean moveIsSafe= false;
             Move nextMove= null;
             while (!moveIsSafe) {
@@ -181,6 +187,17 @@ public class Game {
                     gui.setMsg("Game cannot continue until a Move is produced.");
                     continue;
                 } else {
+                    if (activePlayer == player1) {
+                        /*if (editing_outcomes) {
+                            boolean go = false;
+                            
+                            while (!go) {
+                                if (bestMoves.length == 1) {
+                                    if (bestMoves[0].getColumn() == previous_move_1)
+                                }
+                            }
+                        }*/
+                    }
                     nextMove= bestMoves[0];
                 }
                 if (board.getTile(0,nextMove.getColumn()) == null) {
@@ -197,6 +214,22 @@ public class Game {
             } else {
                 gui.updateGUI(board, nextMove);
             }
+            
+            if (activePlayer == player1) {                
+                previous_move_1 = nextMove.getColumn();
+                if (previous_move_2 != -1) {
+                    outcomes = "";
+                    outcomes += previous_move_1;
+                    outcomes += previous_move_2;
+                    if (!editing_outcomes) outcomes += "0000000";
+                    Experience.writeFile(board.getBoardPosition(), outcomes);
+                }                
+            }
+            
+            if (activePlayer == player2) {                
+                previous_move_2 = nextMove.getColumn();                
+            }
+            
             activePlayer= (activePlayer == player1 ? player2 : player1);
 
             // The following code causes a delay so that you can easily view the plays
@@ -206,11 +239,22 @@ public class Game {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            
-           PrintWriter writer = new PrintWriter (board.getBoardPosition()+".txt", "UTF-8");
-           writer.println("The previous moves");
-           writer.close();
-           System.out.println(board.getBoardPosition());
+                      
+           if (isGameOver()) {               
+               editing_outcomes = true;
+               int outcome = -99;
+               if (winner == null) outcome = Experience.DRAW;
+               else if ("RED".equals(winner.toString())) outcome = Experience.WIN;
+               else if ("YELLOW".equals(winner.toString())) outcome = Experience.LOSS;
+               
+               String old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_2, 2);
+               
+               current_outcomes = Experience.readFile(old_board_state);
+               current_outcomes = Experience.editOutcomes(previous_move_1+2, outcome, current_outcomes);
+               Experience.writeFile(old_board_state, current_outcomes);
+               
+               board = new Board(board, previous_move_1, previous_move_2);
+           }
         }
 
         if (gui == null) {

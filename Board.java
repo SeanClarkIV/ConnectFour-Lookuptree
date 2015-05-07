@@ -46,6 +46,35 @@ public class Board {
             }
         }
     }
+    
+    /* Constructor: duplicates a board while omitting previous moves */
+    
+    public Board(Board b, int move_1, int move_2) {
+        
+        boolean move_1_found = false, move_2_found = false;
+        
+        board= new Player[NUM_ROWS][NUM_COLS];
+        for (int r= NUM_ROWS-1; r >= 0; r--) {
+            for (int c= 0; c < NUM_COLS; c++) {
+                if (c == move_1 && b.board[r][c] == Player.RED) move_1_found = true;
+                if (c == move_2 && b.board[r][c] == Player.YELLOW) move_2_found = true;
+                
+                board[r][c]= b.board[r][c];
+                
+                if (c == move_1) {
+                    if (b.board[r][c] == null && move_1_found) board[r][c] = null;
+                    if (r == 0 && board[r][c] == Player.RED) board[r][c] = null;
+                    if (r == 1 && board[r-1][c] != Player.RED) board[r][c] = null;
+                }
+                
+                if (c == move_2) {
+                    if (b.board[r][c] == null && move_2_found) board[r][c] = null;
+                    if (r == 0 && board[r][c] == Player.YELLOW) board[r][c] = null;
+                    if (r == 1 && board[r-1][c] != Player.YELLOW) board[r][c] = null;
+                }
+            }
+        }
+    }
 
     /** Return the element in row r col c.
      * Precondition: r and c give a position on the board */

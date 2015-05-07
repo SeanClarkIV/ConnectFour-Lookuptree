@@ -1,38 +1,79 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 public class Experience {
 	
-	final int WIN = 2;
-	final int LOSS = 1;
-	final int UNKNOWN = 0;
-	final int DRAW = 3;
-	final int ILLEGAL = 4;
-	final int PLAYER_1 = 1;
-	final int PLAYER_2 = 2;
-	final int EMPTY = 0;
+	static final int WIN = 2;
+	static final int LOSS = 1;
+	static final int UNKNOWN = 0;
+	static final int DRAW = 3;
+	static final int ILLEGAL = 4;
+	static final int PLAYER_1 = 1;
+	static final int PLAYER_2 = 2;
+	static final int EMPTY = 0;
+        static String folderName = "BoardStates";
 	
 	
-	public void writeFile(String name, String contents)
+	public static void writeFile(String name, String contents) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		
+            PrintWriter writer = new PrintWriter (folderName+"/"+name+".txt", "UTF-8");
+            writer.println(contents);
+            writer.close();		
 	}
 	
-	public String readFile(String name)
+	public static String readFile(String name)
 	{
-		return name;
-		
+            String returner = "";
+            FileReader fr = null;
+            try {
+                fr = new FileReader(folderName+"/"+name+".txt");
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(Experience.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            BufferedReader br = new BufferedReader(fr);
+            try {
+                returner = br.readLine();
+            } catch (IOException ex) {
+                Logger.getLogger(Experience.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                br.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Experience.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return returner;
 	}
 	
-	public String generateOldBoardState(String state, int moves )
+	public static String generateOldBoardState(String state, int moves, int player)
 	{
             String returner = "";
             for (int x = (state.length()/7) - 1; x >= 0; x--) {
-                if (state.charAt((x*7)+moves) != 0) {
+                System.out.println(state.charAt((x*7)+moves));
+                if (state.charAt((x*7)+moves) == Integer.toString(player).charAt(0)) {
                     if ((x*7)+moves > 0) returner = state.substring(0,(x*7)+moves);
                     returner += 0;
                     returner += state.substring((x*7)+moves+1, state.length());
-                    x = state.length();
+                    x = -1;
                 }
             }
+            
+            int zero_counter = 0;
+            
+            for (int x = returner.length()-7; x < returner.length(); x++) {
+                if (returner.charAt(x) == '0') zero_counter++;
+                else zero_counter = 0;
+            }
+            
+            if (zero_counter == 7) returner = returner.substring(0, returner.length() - 7);
+            
             return returner;
 	}
      /*
@@ -50,7 +91,7 @@ public class Experience {
 	       // Bounds Checking
 	       if(which >= outcomes.length() || which < 0)
 	       {
-	    	   modifiedOutcomes = "The specifed character is outside of the string.";
+	    	   //modifiedOutcomes = "The specifed character is outside of the string.";
 	       }
 	       else
 	       {
@@ -59,15 +100,5 @@ public class Experience {
 	    	   modifiedOutcomes += outcomes.substring(which+1);
 	       }
            return modifiedOutcomes;
-	} 
-    	public static void main(String[] args)
-    	{
-    		String Test = "10010001001001";
-    		System.out.println(Test);
-    		System.out.println(editOutcomes(1,9,Test).equals("19010001001001"));
-    		System.out.println(editOutcomes(99,0,Test).equals("The specifed character is outside of the string."));
-    		System.out.println(editOutcomes(0,9,Test).equals("90010001001001"));
-    		System.out.println(editOutcomes(13,9,Test).equals("10010001001009"));
-    }
-
+	}
 }
