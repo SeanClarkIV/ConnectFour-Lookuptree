@@ -1,4 +1,8 @@
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
@@ -24,10 +28,41 @@ public class Experience {
          //System.out.println(board.getBoardPosition());
 	}
 	
-	public String readFile(String name)
+	public static String readFile(String name)
 	{
 		
-		return name;
+		File file = new File (folderName+"/"+name);
+		StringBuilder line = new StringBuilder();
+		BufferedReader reader = null;
+
+		try {
+			reader = new BufferedReader (new FileReader(file));
+			String text = null;
+
+			while ((text = reader.readLine()) !=null) {
+				line.append(text)
+				.append(System.getProperty ("line.separator"));
+			}
+		} catch (FileNotFoundException e) {
+
+			e.printStackTrace();
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+		finally
+		{
+			try {
+				if (reader !=null){
+					reader.close();
+				}
+			}
+			catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		return line.toString();
 		
 	}
 	
@@ -77,6 +112,7 @@ public class Experience {
     		System.out.println(editOutcomes(99,0,Test).equals("The specifed character is outside of the string."));
     		System.out.println(editOutcomes(0,9,Test).equals("90010001001001"));
     		System.out.println(editOutcomes(13,9,Test).equals("10010001001009"));
+    		System.out.println(readFile("Test.txt"));
     }
 
 }
