@@ -13,18 +13,20 @@ public class Experience {
 	final int PLAYER_1 = 1;
 	final int PLAYER_2 = 2;
 	final int EMPTY = 0;
+	static String folderName = "BoardStates";
 	
 	
-	public static void writeFile(String name, String contents, Board board) throws FileNotFoundException, UnsupportedEncodingException
+	public static void writeFile(String name, String contents) throws FileNotFoundException, UnsupportedEncodingException
 	{
-		 PrintWriter writer = new PrintWriter (board.getBoardPosition()+".txt", "UTF-8");
-         writer.println("The previous moves");
+		 PrintWriter writer = new PrintWriter (folderName+"/"+name+".txt", "UTF-8");
+         writer.println(contents);
          writer.close();
          //System.out.println(board.getBoardPosition());
 	}
 	
 	public String readFile(String name)
 	{
+		
 		return name;
 		
 	}

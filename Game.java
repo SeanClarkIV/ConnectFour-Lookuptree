@@ -206,11 +206,15 @@ public class Game {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+           
+           Experience.writeFile(board.getBoardPosition(),"NOP");
             
-           PrintWriter writer = new PrintWriter (board.getBoardPosition()+".txt", "UTF-8");
+           /* 
+           PrintWriter writer = new PrintWriter ("folder/"+board.getBoardPosition()+".txt", "UTF-8");
            writer.println("The previous moves");
            writer.close();
            System.out.println(board.getBoardPosition());
+           */
         }
 
         if (gui == null) {
