@@ -1,3 +1,12 @@
+/**********************************************************
+ *   Project: Connect 4 Learning
+ *
+ *   Team 4:
+ *		Sean Clark
+ *		Thomas Coppola
+ *		Anthony Fontanetta
+ *		Sanjana Thomas
+ **********************************************************/
 import java.util.List;
 
 /** Claas that represents player that makes moves using algorithm Minimax. */
@@ -14,9 +23,11 @@ public class Minimax implements Solver {
 		depth= d;
 	}
 
-	/** See Solver.getMoves for the specification. */
+	/** 
+	 * Implements a minimax solver 
+	 *  
+	 *  */
 	public @Override Move[] getMoves(Board b) {
-		// TODO
 		Move[] preferedMoves;
 
 
@@ -82,8 +93,6 @@ public class Minimax implements Solver {
 				createGameTree(n[i],d-1);
 			}
 		}
-
-		// TODO
 	}
 
 	/** Call minimax in AI with state s. */
@@ -95,7 +104,6 @@ public class Minimax implements Solver {
 	 * Use the Minimax algorithm to assign a numerical value to each State of the
 	 * tree rooted at s, indicating how desirable that State is to this player. */
 	public void minimax(State s) {
-		// TODO
 		if(s == null)
 		{
 			return;

@@ -1,3 +1,12 @@
+/**********************************************************
+ *   Project: Connect 4 Learning
+ *
+ *   Team 4:
+ *		Sean Clark
+ *		Thomas Coppola
+ *		Anthony Fontanetta
+ *		Sanjana Thomas
+ **********************************************************/
 
 /** Binary tree with the current node as the root.*/
 public class TreeNode 

@@ -1,3 +1,13 @@
+/**********************************************************
+ *   Project: Connect 4 Learning
+ *
+ *   Team 4:
+ *		Sean Clark
+ *		Thomas Coppola
+ *		Anthony Fontanetta
+ *		Sanjana Thomas
+ **********************************************************/
+
 /** An instance is an entity that can supply moves for a Connect Four game. */
 public interface Solver {
 

@@ -1,3 +1,12 @@
+/**********************************************************
+ *   Project: Connect 4 Learning
+ *
+ *   Team 4:
+ *		Sean Clark
+ *		Thomas Coppola
+ *		Anthony Fontanetta
+ *		Sanjana Thomas
+ **********************************************************/
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,7 +30,9 @@ public class Experience {
 	static final int EMPTY = 0;
         static String folderName = "BoardStates";
 	
-	
+	/**
+	 * Writes the database files.
+	 * */
 	public static void writeFile(String name, String contents) throws FileNotFoundException, UnsupportedEncodingException
 	{
             PrintWriter writer = new PrintWriter (folderName+"/"+name+".txt", "UTF-8");
@@ -29,6 +40,10 @@ public class Experience {
             writer.close();
 	}
 	
+	
+	/**
+	 * Reads the database file and returns a string representation of the file.
+	 * */
 	public static String readFile(String name)
 	{
             String returner = "";
@@ -52,6 +67,10 @@ public class Experience {
             return returner;
 	}
 	
+	
+	/**
+	 * Used for backtracking when building the database.
+	 * */
 	public static String generateOldBoardState(String state, int moves, int player)
 	{
             String returner = "";
@@ -76,7 +95,7 @@ public class Experience {
             
             return returner;
 	}
-     /*
+     /**
       * Takes a given string and modifies a specified character of that string 
       * to a specified value.
       * 

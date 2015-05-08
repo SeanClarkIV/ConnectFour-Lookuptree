@@ -1,12 +1,18 @@
+/**********************************************************
+ *   Project: Connect 4 Learning
+ *
+ *   Team 4:
+ *		Sean Clark
+ *		Thomas Coppola
+ *		Anthony Fontanetta
+ *		Sanjana Thomas
+ **********************************************************/
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.concurrent.Semaphore;
 
 
-/**
- * NOTHING FOR YOU TO DO HERE.
- */
  /** An instance represents the game panel. */
 public class GamePanel extends JPanel {
     /** The colors for various parts of the panel. The name explains it. */
