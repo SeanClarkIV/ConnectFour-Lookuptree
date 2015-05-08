@@ -173,5 +173,10 @@ public class GUI extends JFrame implements ActionListener
         gamePanel.updateBoard(b); // must be called after (not before) playColumn
         repaint();
     }
+    
+    public void updateGUI(Board b) {
+        gamePanel.updateBoard(b); // must be called after (not before) playColumn
+        repaint();
+    }
 
 }

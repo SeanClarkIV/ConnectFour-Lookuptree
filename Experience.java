@@ -56,7 +56,6 @@ public class Experience {
 	{
             String returner = "";
             for (int x = (state.length()/7) - 1; x >= 0; x--) {
-                System.out.println(state.charAt((x*7)+moves));
                 if (state.charAt((x*7)+moves) == Integer.toString(player).charAt(0)) {
                     if ((x*7)+moves > 0) returner = state.substring(0,(x*7)+moves);
                     returner += 0;
@@ -101,4 +100,13 @@ public class Experience {
 	       }
            return modifiedOutcomes;
 	}
+    
+    public static boolean fileExists(String filename) {
+        String checker = folderName + "/";
+        checker += filename;
+        checker += ".txt";
+        
+        File fcheck = new File(checker);
+        return fcheck.exists();
+    }
 }

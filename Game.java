@@ -193,6 +193,7 @@ public class Game {
                             boolean go = false;
                             
                             while (!go) {
+                                gui.updateGUI(board);
                                 if (board.getPossibleMoves(Board.Player.RED).length == 1) {
                                     if (board.getPossibleMoves(Board.Player.RED)[0].getColumn() == previous_move_1) {
                                         
@@ -205,27 +206,109 @@ public class Game {
                                         String writer = "";
                                         writer += previous_move_1;
                                         writer += previous_move_2;
-                                        for (x = 0; x < 7; x++) {
-                                            if (x != holder) writer += Experience.ILLEGAL;
+                                        for (int y = 0; y < 7; y++) {
+                                            if (y != holder) writer += Experience.ILLEGAL;
                                             else writer += outcome;
                                         }
+                                        
+                                        /* current to outcomes */ previous_move_1 = outcomes.charAt(0)-48;
+                                        previous_move_2 = outcomes.charAt(1)-48;
                                         
                                         Experience.writeFile(board.getBoardPosition(), writer);
                                         
                                         String old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_2, 2);
                                         old_board_state = Experience.generateOldBoardState(old_board_state, previous_move_1, 1);
                                         
+                                        System.out.println("Previous Move 1 = " + previous_move_1);
+                                        System.out.println("Previous Move 2 = " + previous_move_2);
+                                        System.out.println("old board state = " + old_board_state);
+                                        
                                         current_outcomes = Experience.readFile(old_board_state);
                                         current_outcomes = Experience.editOutcomes(previous_move_1+2, outcome, current_outcomes);
-                                        previous_move_1 = current_outcomes.charAt(0);
-                                        previous_move_2 = current_outcomes.charAt(1);
+                                        
                                         Experience.writeFile(old_board_state, current_outcomes);
-                                        board = new Board(board, previous_move_1, previous_move_2);                                        
+                                        board = new Board(board, previous_move_1, previous_move_2);  
+                                        gui.updateGUI(board);
                                     }
-                                    else go = true;                                        
+                                    else{
+                                        go = true;
+                                        nextMove = new Move(Board.Player.RED, board.getPossibleMoves(Board.Player.RED)[0].getColumn());
+                                    }                                        
                                 }
                                 else {
                                     
+                                    String writer = "";
+                                    writer += Experience.readFile(board.getBoardPosition()).charAt(0);
+                                    writer += Experience.readFile(board.getBoardPosition()).charAt(1);
+                                    
+                                    for (int y = 2; y < 9; y++) {
+                                            if ('0' == Experience.readFile(board.getBoardPosition()).charAt(y)){
+                                                boolean wrong = false;
+                                                
+                                                for (int z = 0; z < board.getPossibleMoves(Board.Player.RED).length; z++) {
+                                                    int bob = board.getPossibleMoves(Board.Player.RED)[z].getColumn();
+                                                    if (board.getPossibleMoves(Board.Player.RED)[z].getColumn() == y-2) wrong = true;
+                                                }
+                                                if (!wrong) writer += Experience.ILLEGAL;
+                                                else writer += Experience.readFile(board.getBoardPosition()).charAt(y);
+                                            }
+                                            else writer += Experience.readFile(board.getBoardPosition()).charAt(y);;
+                                    }
+                                    
+                                    Experience.writeFile(board.getBoardPosition(), writer);
+                                    
+                                    boolean has_possible_move = false;
+                                    
+                                    for (int y = 2; y < 9; y++) {
+                                        if (writer.charAt(y) == '0') {
+                                            nextMove = new Move(Board.Player.RED,y-2);   
+                                            has_possible_move = true;
+                                        }
+                                    }                                  
+                                    
+                                    if (has_possible_move) go = true;
+                                    else {                                        
+                                        previous_move_1 = Experience.readFile(board.getBoardPosition()).charAt(0) - 48;
+                                        previous_move_2 = Experience.readFile(board.getBoardPosition()).charAt(1) - 48;
+                                        
+                                        board = new Board(board, previous_move_1, previous_move_2);
+                                        
+                                        writer = "";
+                                        writer += Experience.readFile(board.getBoardPosition()).charAt(0) - 48;
+                                        writer += Experience.readFile(board.getBoardPosition()).charAt(1) - 48;
+                                        
+                                        for (int y = 2; y < 9; y++) {
+                                            if (y-2 == previous_move_1) writer += outcome;
+                                            else if ('0' == Experience.readFile(board.getBoardPosition()).charAt(y)){
+                                                boolean wrong = false;                                                    
+                                            
+                                                for (int z = 0; z < board.getPossibleMoves(Board.Player.RED).length; z++) {
+                                                    if (board.getPossibleMoves(Board.Player.RED)[z].getColumn() == y-2) wrong = true;
+                                                }
+                                                if (!wrong) writer += Experience.ILLEGAL;
+                                                else writer += Experience.readFile(board.getBoardPosition()).charAt(y);
+                                            }
+                                            else writer += Experience.readFile(board.getBoardPosition()).charAt(y);
+                                        }
+                                        
+                                        Experience.writeFile(board.getBoardPosition(), writer);
+                                        
+                                        /*
+                                        previous_move_1 = Experience.readFile(board.getBoardPosition()).charAt(0) - 48;
+                                        previous_move_2 = Experience.readFile(board.getBoardPosition()).charAt(1) - 48;
+                                        
+                                        writer = "";
+                                        writer += previous_move_1;
+                                        writer += previous_move_2;
+                                        for (int y = 2; y < 9; y++) {
+                                            if ('0' == Experience.readFile(board.getBoardPosition()).charAt(y)) writer += Experience.ILLEGAL;
+                                            else writer += Experience.readFile(board.getBoardPosition()).charAt(y);
+                                        }
+                                        
+                                        Experience.writeFile(board.getBoardPosition(), writer);
+                                        
+                                        board = new Board(board, previous_move_1, previous_move_2);*/                                    
+                                    }
                                 }
                             }
                         }
@@ -251,11 +334,18 @@ public class Game {
             if (activePlayer == player2) {                
                 previous_move_2 = nextMove.getColumn();
                 if (previous_move_1 != -1) {
-                    outcomes = "";
-                    outcomes += previous_move_1;
-                    outcomes += previous_move_2;
-                    if (!editing_outcomes) outcomes += "0000000";
-                    Experience.writeFile(board.getBoardPosition(), outcomes);
+                    if (!Experience.fileExists(board.getBoardPosition())) {
+                        outcomes = "";
+                        outcomes += previous_move_1;
+                        outcomes += previous_move_2;
+                        outcomes += "0000000";
+                        Experience.writeFile(board.getBoardPosition(), outcomes);
+                        System.out.println("Outcomes " + outcomes + " written to file " + board.getBoardPosition());
+                        
+                        if ("211122111222122211121212221222111201112210".equals(board.getBoardPosition())) {
+                            int p = 0;
+                        }
+                    }
                 }                
             }
             
@@ -325,6 +415,10 @@ public class Game {
         }
 
         return true;
+    }
+    
+    public void backUpAStep() {
+        
     }
 
 }
