@@ -25,7 +25,7 @@ public class GUI extends JFrame implements ActionListener
     	Solver p1 = null;
     	Solver p2 = null;
     	System.out.print("Welcome to Connect Four!!\nPlease choose player 1 by corresponding number:\n1: Minimax Player \n"
-    			+ "2: Random Player\n3: Human Player\n");
+    			+ "2: Random Player\n3: Human Player\n4: DatabasePlayer\n");
     	
     	player1 = user_input.nextInt( );
     	
@@ -40,8 +40,12 @@ public class GUI extends JFrame implements ActionListener
     		}
     	else if(player1 == 3)
     		{
-    			p1= new Human(Board.Player.RED);
+    			p1= new DatabasePlayer(Board.Player.RED);
     		}
+    	else if (player1 == 4)
+    	{
+    			p1 = new DatabasePlayer(Board.Player.RED);
+    	}
     	else
     		{
     			System.out.println("You have not entered a valid number, please restart and enter valid number.");

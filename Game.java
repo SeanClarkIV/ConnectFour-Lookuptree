@@ -210,7 +210,7 @@ public class Game {
                                             else writer += outcome;
                                         }
                                         
-                                        Experience.writeFile(board.getBoardPosition(), writer);
+                                        //Experience.writeFile(board.getBoardPosition(), writer);
                                         
                                         String old_board_state = Experience.generateOldBoardState(board.getBoardPosition(), previous_move_2, 2);
                                         old_board_state = Experience.generateOldBoardState(old_board_state, previous_move_1, 1);
@@ -219,7 +219,7 @@ public class Game {
                                         current_outcomes = Experience.editOutcomes(previous_move_1+2, outcome, current_outcomes);
                                         previous_move_1 = current_outcomes.charAt(0);
                                         previous_move_2 = current_outcomes.charAt(1);
-                                        Experience.writeFile(old_board_state, current_outcomes);
+                                        //Experience.writeFile(old_board_state, current_outcomes);
                                         board = new Board(board, previous_move_1, previous_move_2);                                        
                                     }
                                     else go = true;                                        
@@ -255,7 +255,7 @@ public class Game {
                     outcomes += previous_move_1;
                     outcomes += previous_move_2;
                     if (!editing_outcomes) outcomes += "0000000";
-                    Experience.writeFile(board.getBoardPosition(), outcomes);
+                    //Experience.writeFile(board.getBoardPosition(), outcomes);
                 }                
             }
             
@@ -292,7 +292,7 @@ public class Game {
                
                current_outcomes = Experience.readFile(old_board_state);
                current_outcomes = Experience.editOutcomes(previous_move_1+2, outcome, current_outcomes);
-               Experience.writeFile(old_board_state, current_outcomes);
+               //Experience.writeFile(old_board_state, current_outcomes);
                
                board = new Board(board, previous_move_1, previous_move_2);
            }

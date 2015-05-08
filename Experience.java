@@ -26,7 +26,7 @@ public class Experience {
 	{
             PrintWriter writer = new PrintWriter (folderName+"/"+name+".txt", "UTF-8");
             writer.println(contents);
-            writer.close();		
+            writer.close();
 	}
 	
 	public static String readFile(String name)
