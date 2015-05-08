@@ -198,6 +198,7 @@ public class Game {
                                     if (board.getPossibleMoves(Board.Player.RED)[0].getColumn() == previous_move_1) {
                                         
                                         int holder = previous_move_1;
+                                        int holder2 = previous_move_2;
                                         
                                         //String board_state = Experience.readFile(board.getBoardPosition());
                                         //previous_move_1 = board_state.charAt(0) - 48;
@@ -211,8 +212,10 @@ public class Game {
                                             else writer += outcome;
                                         }
                                         
-                                        /* current to outcomes */ previous_move_1 = outcomes.charAt(0)-48;
-                                        previous_move_2 = outcomes.charAt(1)-48;
+                                        //if (!outcomes.equals(current_outcomes)) outcomes = current_outcomes;
+                                        
+                                        /* current to outcomes */ previous_move_1 = current_outcomes.charAt(0)-48;
+                                        previous_move_2 = current_outcomes.charAt(1)-48;
                                         
                                         Experience.writeFile(board.getBoardPosition(), writer);
                                         
@@ -345,6 +348,7 @@ public class Game {
                         if ("211122111222122211121212221222111201112210".equals(board.getBoardPosition())) {
                             int p = 0;
                         }
+                        current_outcomes = outcomes;
                     }
                 }                
             }
