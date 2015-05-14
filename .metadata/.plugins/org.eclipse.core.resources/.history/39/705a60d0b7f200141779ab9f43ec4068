@@ -1,0 +1,13 @@
+<?php
+        		$DealDatabase = fopen("zipcode.txt", "r");
+        		$linecounter = 0;
+        		while ($linecounter < (742)) {
+        			$line = fgets($DealDatabase);
+        			$split = explode(":",$line, 8);
+        			if ($split[0] = $_GET['zipcode'])
+        				break;
+        			$linecounter = $linecounter + 1;        				
+        		}
+        		
+        		echo $split[1];
+?>

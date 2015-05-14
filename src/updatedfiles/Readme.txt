@@ -1,0 +1,13 @@
+Project: Connect 4 Learning ReadmeTeam 4:       Sean ClarkThomas Coppola       Anthony Fontanetta       Sanjana ThomasExplanation of Files:Board.java:	Class file that defines the board representation of a connect four game board. 
+Implements the logic for the game rules and win conditions.DatabasePlayer.java:	Agent that plays based on the database built. 
+If the agent doesn’t have knowledge of a certain game configuration then it plays randomly.Experience.java:	Implements functions that interface with the knowledge database. 
+Used primarily to update the database when running the builder option.GUI.java	The main class that runs a connect 4 game. 
+Runs a graphical version of connect four. 
+Used when running the game after building the database. 
+Has the option of running games between human, minimax, random, and database game players.GamePanel.java	Handles the animation and the graphics of the connect four game.	Human.java	Implements a solver for human players.Minimax.java	Implements the minimax solver.Move.java	An object that represents a player move. 
+Holds information on which player and what column a move is to be made in.RandomPlayer.java	Implements a solver that plays randomlyRunnerOption/Game.java	Version of the Game file used to run the game after building the database only.Solver.java	An interface that specifies the getMoves method which is used to return the 
+move the player wishes to make to the game board. All players must implement this interface 
+in order to play.State.java	Represents the game state. Keeps track of the board the last move made, 
+and the current player to move.dbBuilder/Game.java
+	Version of the Game that runs while building the files for the database.Compilation:Option one - Building the database:
+Move the Game.java in the dbBuilder folder in with the rest of the java files.Run javac *.java in the directory of the java files.Before running the program make a folder named “BoardStates” in the directory that you will be running the project from.Option two – Running after the database has been built:Move the Game.java in the RunnerOption folder in with the rest of the java files.Run javac *.java in the directory of the java files.Before running the program make a folder named “BoardStates” in the directory that you will be running the project from.Running:Option One:Run java GUI   - Select the option for minimax vs minimax.   - To build an adequate database this may have to be run for a long time.Option Two:Run java GUI- Select the combination to player that you want to play using the commandline interface.- Observe the results.- If you selected human option then you may make moves by clicking on the buttons.
